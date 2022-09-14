@@ -1,61 +1,39 @@
-# Template Proyek Django PBP
+# PBP Tugas 2 Django
 
-Pemrograman Berbasis Platform (CSGE602022) - diselenggarakan oleh Fakultas Ilmu Komputer Universitas Indonesia, Semester Ganjil 2022/2023
+[Katalog App](https://pbp-tugas2.herokuapp.com/katalog/)
 
-*Read this in other languages: [Indonesian](README.md), [English](README.en.md)*
+## Bagan Request Cient Flow Django
+![Bagan](https://github.com/electyrion/tugas2-pbp/blob/main/assets/images/bagan.png)
+Penjelasan:
+   Sebuah web application menungggu HTTP request dari web browser atau dalam kata lain client. Ketika request diterima, applikasi akan memproses apa yang sedang client butuhkan berdasarkan URL yang diakses client. Aplikasi kemudian akan me-return suatu responnse menuju web browser, biasanya berupa file halaman HTML yang nantinya dapat ditampilkan pada browser.
+    1. Ketika user mengakses suatu web-application, user mengirimkan HTTP Request ke server
+    2. urls.py menangkap request yang dikirim oleh user kemudian menghubungkannya ke view yang bersesuaian dengan request URL. urls.py juga mampu mencocokkan pola string maupun digit tertentu yang muncul pada URL dan mengantarkannya menuju view function sebagai data.
+    3. views.py berperan sebagai fungsi yang melakukan request handler yang menerima HTTP request kemudian me-return HTTP respose. view dapat mengakses data yang dibutuhkan untuk memenuhi request melalui models dan menyerahkan format dari response ke templates yang telah tersedia
+    4. Models merupakan python object yang mendefinisikan struktur data dari suatu applikasi dan menyediakan mekanisme untuk mengatur (add, modify, delet) dan memaasukkan query kedalam database
+    5. Template merupakan file teks yang mendefinisikan struktur maupun tampilan dari suatu file seperti halaman HTML dengan placeholder yang dapat digunakan untuk merepresentasikan konten yang sebenarnya. View dapat membuat halaman HTML secara dinamis menggunakan HTML template dan mengisinya dengan data dari model. Template juga dapat digunakan untuk mendefinisikan struktur dari file berjenis apapun tidak hanya HTML saja.
 
-## Pendahuluan
+## Mengapa perlu virtual environtment?
 
-Repositori ini merupakan sebuah template yang dirancang untuk membantu mahasiswa yang sedang mengambil mata kuliah Pemrograman Berbasis Platform (CSGE602022) mengetahui struktur sebuah proyek aplikasi Django serta file dan konfigurasi yang penting dalam berjalannya aplikasi. Kamu dapat dengan bebas menyalin isi dari repositori ini atau memanfaatkan repositori ini sebagai pembelajaran sekaligus awalan dalam membuat sebuah proyek Django.
+Ketika sedang mengembangkan suatu aplikasi Python, pendekatan yang biasa digunakan adalah dengan menginstall Python, menginstall seluruh library yand diperlukan melalui terminal, menulis semua code dalam satu file .py kemudian menjalankan program python tersebut melalui terminal. Hal tersebut merupakan pendekatan paling umum yang biasanya digunakan oleh pemula. Pendekatan seperti tadi akan berjalan sempurna pada project yang berskala kecil. Namun, saat akan mengembangkan software yang kompleks, kita akan berurusan dengan banyak sekali file, packages, dan dependensi. Akibatnya, kita harus mengisolasi python environtment hanya untuk project tertentu saja. Penggunaan virtual environtment dapat menghidarkan kita dari error yang muncul akibat perbedaan versi dan jenis dependensi yang dibutuhkan untuk project yang berbeda. Virtual environtment berguna untuk mengisolasi python yang kita gunakan untuk membangun suatu project dengan python yang terinstall secara global pada system. Hal tersebut memberikan kita kontrol penuh atas project yang sedang berjalan dan membuatnnya mudah untuk dirpoduksi.
 
-## Cara Menggunakan
+## Apakah bisa membuat aplilkasi web berbasis Django tanpa virtual environtment?
 
-Apabila kamu ingin menggunakan repositori ini sebagai repositori awalan yang nantinya akan kamu modifikasi:
+Penggunaan virtual environtment pada saat mengembangkan aplikasi web berbasis Django tidak wajib dilakukan. Namun, seperti yang sudah dijelaskan di atas, proses pengembangan aplikasi web berbasi Django yang tidak menggunakan virtual environtment akan menyusahkan para pengembang dikemudian hari seiring dengan semakin membesarnya ukuran suatu proyek. Jika kita sedang membangun beberapa aplilkasi berbasis Django secara bersamaan namun hanya menggunakan python yang terinstal secara global pada system maka akan sangat memungkinkan timbul adanya error yang tidak diinginkan. Error tersebut bisa saja muncul karena disebabkan oleh perbedaan versi dan jenis dependensi yang dibutuhkan pada setiap proyek yang sedang dikerjakan. Kesimpulannya, penggunaan virtual environtment sangat dianjurkan pada saat mengembangkan aplikasi berbasi Django agar dapat memudahkan proses pengembangannya.
 
-1. Buka laman GitHub repositori templat kode, lalu klik tombol "**Use this template**"
-   untuk membuat salinan repositori ke dalam akun GitHub milikmu.
-2. Buka laman GitHub repositori yang dibuat dari templat, lalu gunakan perintah
-   `git clone` untuk menyalin repositorinya ke suatu lokasi di dalam sistem
-   berkas (_filesystem_) komputermu:
+## Implementasi aplikasi katalog
 
-   ```shell
-   git clone <URL ke repositori di GitHub> <path ke suatu lokasi di filesystem>
-   ```
-3. Masuk ke dalam repositori yang sudah di-_clone_ dan jalankan perintah berikut
-   untuk menyalakan _virtual environment_:
-
-   ```shell
-   python -m venv env
-   ```
-4. Nyalakan environment dengan perintah berikut:
-
-   ```shell
-   # Windows
-   .\env\Scripts\activate
-   # Linux/Unix, e.g. Ubuntu, MacOS
-   source env/bin/activate
-   ```
-5. Install dependencies yang dibutuhkan untuk menjalankan aplikasi dengan perintah berikut:
-
-   ```shell
-   pip install -r requirements.txt
-   ```
-
-6. Jalankan aplikasi Django menggunakan server pengembangan yang berjalan secara
-   lokal:
-
-   ```shell
-   python manage.py runserver
-   ```
-7. Bukalah `http://localhost:8000` pada browser favoritmu untuk melihat apakah aplikasi sudah berjalan dengan benar.
-
-## Contoh Deployment 
-
-Pada template ini, deployment dilakukan dengan memanfaatkan GitHub Actions sebagai _runner_ dan Heroku sebagai platform Hosting aplikasi. 
-
-Untuk melakukan deployment, kamu dapat melihat instruksi yang ada pada [Tutorial 0](https://pbp-fasilkom-ui.github.io/ganjil-2023/assignments/tutorial/tutorial-0).
-
-Untuk contoh aplikasi Django yang sudah di deploy, dapat kamu akses di [https://django-pbp-template.herokuapp.com/](https://django-pbp-template.herokuapp.com/)
+1. Pada views.py yang berada pada folder aplikasi katalog perlu dibuat suatu fungsi bernama show_katalog yang menerima parameter `request` dan me-return `render(request, “katalog.hml”)`.
+2. Buat file baru bernama `urls.py` pada folder aplikasi `katalog` untuk melakukan routing terhadap fungsi `views` yang baru saja dibuat sehingga nantinya halaman HTML katalog dapat ditampilkan pada browser client. Tambahkan juga aplikasi `katalog` ke dalam `urls.py` yang terdapat pada folder `project_django` dengan menambahkan kode `path(‘katalog/‘, include(‘katalog.urls.’))` pada variabel `urlpatterns`
+3. Load data json menggunakan syntax *python manage.py loaddata initial_catalog_data.json*. Pada fungsi views yang telah dibuat, import models yang sudah ada ke dalam file `views.py`, kemudian dalam fungsi `show_katalog` yang sudah dibuat sebelumnya tambahkan potongan kode berikut:
+```shell
+data_item_katalog = CatalogItem.objects.all()
+   context = {
+      'list_item’: data_item_katalog,
+      'nama': 'Vicky'
+   }
+```
+dan tambahkan `context` sebagai parameter ketiga pada pengembalian fungsi render yang sudah dibuat sebelumnya. Data yang ada pada variabel `context` tersebut akan ikut di-render oleh Django sehingga nantinya data dapat muncul di halaman HTML. Untuk menampilkan daftar katalog ke dalam tabel, perlu dilakukan iterasi terhadap variabel `list_item` yang telah dirender ke dalam file HTML.
+4. Untuk melakukan deploy, pertama tambahkan file Procfile yang berguna untuk mengatur deployment. Selanjutnya pilih menu buat aplilkasi baru pada Heroku, hubungkan ke repository di github, setting api_key, dan selamat aplikasi katalog telah berhasil dideploy
 
 ## Credits
 

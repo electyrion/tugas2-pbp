@@ -6,7 +6,7 @@ from katalog.models import CatalogItem
 def show_katalog(request):
     data_item_katalog = CatalogItem.objects.all()
     context = {
-        'list_barang': data_item_katalog,
+        'list_item': data_item_katalog,
         'nama': 'Vicky'
     }
     return render(request, "katalog.html", context)
