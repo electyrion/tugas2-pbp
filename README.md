@@ -23,15 +23,7 @@ Penggunaan virtual environtment pada saat mengembangkan aplikasi web berbasis Dj
 
 1. Pada views.py yang berada pada folder aplikasi katalog perlu dibuat suatu fungsi bernama show_katalog yang menerima parameter `request` dan me-return `render(request, “katalog.hml”)`.
 2. Buat file baru bernama `urls.py` pada folder aplikasi `katalog` untuk melakukan routing terhadap fungsi `views` yang baru saja dibuat sehingga nantinya halaman HTML katalog dapat ditampilkan pada browser client. Tambahkan juga aplikasi `katalog` ke dalam `urls.py` yang terdapat pada folder `project_django` dengan menambahkan kode `path(‘katalog/‘, include(‘katalog.urls.’))` pada variabel `urlpatterns`
-3. Load data json menggunakan syntax *python manage.py loaddata initial_catalog_data.json*. Pada fungsi views yang telah dibuat, import models yang sudah ada ke dalam file `views.py`, kemudian dalam fungsi `show_katalog` yang sudah dibuat sebelumnya tambahkan potongan kode berikut:
-```shell
-data_item_katalog = CatalogItem.objects.all()
-   context = {
-      'list_item’: data_item_katalog,
-      'nama': 'Vicky'
-   }
-```
-kemudian tambahkan `context` sebagai parameter ketiga pada pengembalian fungsi render yang sudah dibuat sebelumnya. Data yang ada pada variabel `context` tersebut akan ikut di-render oleh Django sehingga nantinya data dapat muncul di halaman HTML. Untuk menampilkan daftar katalog ke dalam tabel, perlu dilakukan iterasi terhadap variabel `list_item` yang telah dirender ke dalam file HTML.
+3. Load data json menggunakan syntax *python manage.py loaddata initial_catalog_data.json*. Pada fungsi views yang telah dibuat, import models yang sudah ada ke dalam file `views.py`, kemudian dalam fungsi `show_katalog` yang sudah dibuat sebelumnya, update fungsi tersebut sehingga ia dapat memanggil fungsi query ke model database dan menyimpan hasil queryt tersebut ke dalam vairable `context` kemudian tambahkan `context` sebagai parameter ketiga pada pengembalian fungsi render yang sudah dibuat sebelumnya. Data yang ada pada variabel `context` tersebut akan ikut di-render oleh Django sehingga nantinya data dapat muncul di halaman HTML. Untuk menampilkan daftar katalog ke dalam tabel, perlu dilakukan iterasi terhadap variabel `list_item` yang telah dirender ke dalam file HTML.
 4. Untuk melakukan deploy, pertama tambahkan file Procfile yang berguna untuk mengatur deployment. Selanjutnya pilih menu buat aplilkasi baru pada Heroku, hubungkan ke repository di github, setting api_key, dan selamat aplikasi katalog telah berhasil dideploy
 
 ## Credits
