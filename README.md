@@ -5,12 +5,11 @@
 ## Bagan Request Cient Flow Django
 ![Bagan](https://github.com/electyrion/tugas2-pbp/blob/main/assets/images/bagan.png)
 Penjelasan:
-   Sebuah web application menungggu HTTP request dari web browser atau dalam kata lain client. Ketika request diterima, applikasi akan memproses apa yang sedang client butuhkan berdasarkan URL yang diakses client. Aplikasi kemudian akan me-return suatu responnse menuju web browser, biasanya berupa file halaman HTML yang nantinya dapat ditampilkan pada browser.
-    1. Ketika user mengakses suatu web-application, user mengirimkan HTTP Request ke server
-    2. urls.py menangkap request yang dikirim oleh user kemudian menghubungkannya ke view yang bersesuaian dengan request URL. urls.py juga mampu mencocokkan pola string maupun digit tertentu yang muncul pada URL dan mengantarkannya menuju view function sebagai data.
-    3. views.py berperan sebagai fungsi yang melakukan request handler yang menerima HTTP request kemudian me-return HTTP respose. view dapat mengakses data yang dibutuhkan untuk memenuhi request melalui models dan menyerahkan format dari response ke templates yang telah tersedia
-    4. Models merupakan python object yang mendefinisikan struktur data dari suatu applikasi dan menyediakan mekanisme untuk mengatur (add, modify, delet) dan memaasukkan query kedalam database
-    5. Template merupakan file teks yang mendefinisikan struktur maupun tampilan dari suatu file seperti halaman HTML dengan placeholder yang dapat digunakan untuk merepresentasikan konten yang sebenarnya. View dapat membuat halaman HTML secara dinamis menggunakan HTML template dan mengisinya dengan data dari model. Template juga dapat digunakan untuk mendefinisikan struktur dari file berjenis apapun tidak hanya HTML saja.
+1. Ketika user mengakses suatu web-application, user mengirimkan HTTP Request ke server
+2. urls.py menangkap request yang dikirim oleh user kemudian menghubungkannya ke view yang bersesuaian dengan request URL. urls.py juga mampu mencocokkan pola string maupun digit tertentu yang muncul pada URL dan mengantarkannya menuju view function sebagai data.
+3. views.py berperan sebagai fungsi yang melakukan request handler yang menerima HTTP request kemudian me-return HTTP respose. view dapat mengakses data yang dibutuhkan untuk memenuhi request melalui models dan menyerahkan format dari response ke templates yang telah tersedia
+4. Models merupakan python object yang mendefinisikan struktur data dari suatu applikasi dan menyediakan mekanisme untuk mengatur (add, modify, delet) dan memaasukkan query kedalam database
+5. Template merupakan file teks yang mendefinisikan struktur maupun tampilan dari suatu file seperti halaman HTML dengan placeholder yang dapat digunakan untuk merepresentasikan konten yang sebenarnya. View dapat membuat halaman HTML secara dinamis menggunakan HTML template dan mengisinya dengan data dari model. Template juga dapat digunakan untuk mendefinisikan struktur dari file berjenis apapun tidak hanya HTML saja.
 
 ## Mengapa perlu virtual environtment?
 
@@ -32,7 +31,7 @@ data_item_katalog = CatalogItem.objects.all()
       'nama': 'Vicky'
    }
 ```
-dan tambahkan `context` sebagai parameter ketiga pada pengembalian fungsi render yang sudah dibuat sebelumnya. Data yang ada pada variabel `context` tersebut akan ikut di-render oleh Django sehingga nantinya data dapat muncul di halaman HTML. Untuk menampilkan daftar katalog ke dalam tabel, perlu dilakukan iterasi terhadap variabel `list_item` yang telah dirender ke dalam file HTML.
+kemudian tambahkan `context` sebagai parameter ketiga pada pengembalian fungsi render yang sudah dibuat sebelumnya. Data yang ada pada variabel `context` tersebut akan ikut di-render oleh Django sehingga nantinya data dapat muncul di halaman HTML. Untuk menampilkan daftar katalog ke dalam tabel, perlu dilakukan iterasi terhadap variabel `list_item` yang telah dirender ke dalam file HTML.
 4. Untuk melakukan deploy, pertama tambahkan file Procfile yang berguna untuk mengatur deployment. Selanjutnya pilih menu buat aplilkasi baru pada Heroku, hubungkan ke repository di github, setting api_key, dan selamat aplikasi katalog telah berhasil dideploy
 
 ## Credits
