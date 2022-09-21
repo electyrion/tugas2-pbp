@@ -9,8 +9,8 @@ JSON | HTML | XML
 Object JSON memiliki tipe | | XML data tidak memiliki tipe
 Tipe data JSON: string, number, array, Boolean | | Seluruh data XML harus berupa string
 Data mudah dibaca dan diakses sebagai JSON object | | Data XML harus di-parse terlebih dahulu
-JSON didukung oleh berbagai browser | | Melakukan parse XML antar browser terkadang sulit
-JSON tidak memiliki kemampuan medsiplay data | | XML dapat mendisplay datanya karena tergolong kedalam markup language
+JSON didukung oleh berbagai browser | Didukung oleh banyak browser yang beredar di pasaran | Melakukan parse XML antar browser terkadang sulit
+JSON tidak memiliki kemampuan medsiplay data | Mudah melakukan display data melalui browser | XML dapat mendisplay datanya karena tergolong kedalam markup language
 JSON hanya mendukung data type text dan number | | XML mendukung berbagai data type seperti number, images text, charts, graphs, dll
 Proses pengambilan value dari data tergolong mudah | | Proses pengambilan value dari data tergolong sulit
 Proses deserializing/serializing Javascript dapat berjalan otomatis | | Developer harus menulis kode dalam Javascript terlebih dahulu untuk melakukan deserializing/serializing dari XML
