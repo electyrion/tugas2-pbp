@@ -5,7 +5,7 @@
 ## Perbedaan antara JSON, HTML, dan XML
 
 JSON | HTML | XML
---- | --- | ---
+:---: | :---: | :---:
 Object JSON memiliki tipe | | XML data tidak memiliki tipe
 Tipe data JSON: string, number, array, Boolean | | Seluruh data XML harus berupa string
 Data mudah dibaca dan diakses sebagai JSON object | | Data XML harus di-parse terlebih dahulu
