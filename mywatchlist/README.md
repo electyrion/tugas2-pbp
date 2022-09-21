@@ -40,9 +40,14 @@ Suatu aplikasi memerlukan adanya pertukaran data yang terjadi antara client deng
 
 ## Screenshot Postman
 
-HTML
+### HTML
+
 ![HTML](https://github.com/electyrion/tugas2-pbp/blob/main/mywatchlist/assets/images/show_html.png)
-JSON
+
+### JSON
+
 ![JSON](https://github.com/electyrion/tugas2-pbp/blob/main/mywatchlist/assets/images/show_json.png)
-XML
+
+### XML
+
 ![XML](https://github.com/electyrion/tugas2-pbp/blob/main/mywatchlist/assets/images/show_xml.png)
