@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+  <head>
+    <style>
+    h1 {text-align: center;}
+    h5 {text-align: center;}
+    p {text-align: center;}
+    </style>
+  </head>
+
+  <h1>My Todo-List</h1>
+
+  <h5>Name: </h5>
+  <p>{{nama}}</p>
+
+  <h5>Student ID: </h5>
+  <p>{{npm}}</p>
+
+  <table border="1">
+    <tr>
+      <th>Tanggal Pembuatan Task</th>
+      <th>Judul Task</th>
+      <th>Deskripsi Task</th>
+      <th>Status</th>
+      <th>Ubah</th>
+      <th>Hapus</th>
+    </tr>
+    {% comment %} Add the data below this line {% endcomment %}
+    {% for task in task_list %}
+    <tr>
+      <td>{{task.date}}</td>
+      <td>{{task.title}}</td>
+      <td>{{task.description}}</td>
+      <td>
+        {% if task.is_finished %} Selesai {% else %} Belum Selesai {% endif %}
+      </td>
+      <td>
+        <button>
+          <a href="{% url 'todolist:update-task' task.id %}">Ubah</a>
+        </button>
+        
+      </td>
+      <td>
+        <button>
+          <a href="{% url 'todolist:delete-task' task.id %}">Delete</a>
+        </button>
+      </td>
+      
+    </tr>
+    {% endfor %}
+  </table>
+  
+  <h5>Sesi terakhir login: {{ last_login }}</h5>
+
+  <button><a href="{% url 'todolist:logout' %}">Logout</a></button>
+  <button><a href="{% url 'todolist:create-task' %}">Tambah Task Baru</button>
+  
+
+{% endblock content %}
