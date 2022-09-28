@@ -29,3 +29,19 @@ Berdasarkan bagan di atas, hal utama yang dilakukan oleh Django untuk menghandle
 6. Setelah proses penyimpanan task selesai dilaksanakan, client akan dialihkan menuju halaman utama `todolist` yang berisi daftar task yang telah dibuat oleh client.
 
 ## Langkah implementasi tugas
+
+1. Membuat app baru dengan perintah `python manage.py startapp todolist`
+2. Buka [settings.py](https://github.com/electyrion/tugas2-pbp/blob/main/project_django/settings.py) di folder `project_django` dan tambahkan aplikasi `todolist` ke dalam variabel `INSTALLED_APP` untuk mendaftarkan `todolist` ke dalam proyek Django.
+3. Buka file [models.py](https://github.com/electyrion/tugas2-pbp/blob/main/todolist/models.py) yang ada di folder `todolist` dan tambahkan models seperti yang diminta pada soal.
+4. Lakukan perintah `python manage.py makemigrations` untuk mempersiapkan migrasi skema model ke dalam database Django lokal.
+5. Jalankan perintah `python manage.py migrate` untuk menerapkan skema model yang telah dibuat ke dalam database Django lokal.
+6. Mengimplementasikan form [registrasi](https://github.com/electyrion/tugas2-pbp/blob/main/todolist/templates/register.html), [login](https://github.com/electyrion/tugas2-pbp/blob/main/todolist/templates/login.html), dan `logout` seperti pada lab tempo hari yang lalu
+7. Membuat halaman utama [todolist](https://github.com/electyrion/tugas2-pbp/blob/main/todolist/templates/todolist.html) yang memuat `username` pengguna, tombol `Tambah Task Baru`, tombol `logout`, serta tabel berisi tanggal `pembuatan task`, `judul task`, dan `deskripsi task`.
+8. Membuat halaman form untuk [pembuatan task](https://github.com/electyrion/tugas2-pbp/blob/main/todolist/templates/create_task.html) yang hanya menerima input `title` dan `description`
+9. Membuat [routing](https://github.com/electyrion/tugas2-pbp/blob/main/todolist/urls.py) sehingga fungsi dapat mengakses URL berikut:
+    `http://localhost:8000/todolist` berisi halaman utama yang memuat tabel task.
+    `http://localhost:8000/todolist/login` berisi form login.
+    `http://localhost:8000/todolist/register` berisi form registrasi akun.
+    `http://localhost:8000/todolist/create-task` berisi form pembuatan task.
+    `http://localhost:8000/todolist/logout` berisi mekanisme logout.
+10. Melakukan deployment ke Heroku terhadap aplikasi yang sudah kamu buat sehingga nantinya dapat diakses oleh orang lain melalui Internet.
