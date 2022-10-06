@@ -2,59 +2,77 @@
 
  {% block content %}
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-    h1 {text-align: center;}
-    h5 {text-align: center;}
-    p {text-align: center;}
+      h1 {text-align: center;}
+      h5 {text-align: center;}
+      p {text-align: center;}
+      .gradient-custom {
+        /* fallback for old browsers */
+        background: #6a11cb;
+
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+    }
+    .card:hover{
+    box-shadow: 4px 4px 2px rgb(107, 118, 125);    
+    transform: scale(1.1);
+
+    }
     </style>
   </head>
 
-  <h1>My Todo-List</h1>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Todo-List</span>
+        <div class="rounded-4">
+          <a class="btn btn btn-primary" href="{% url 'todolist:create-task' %}">Create New</a>
+          <a class="btn btn-danger" href="{% url 'todolist:logout' %}"> Logout </a>
+        </div>
+    </div>
+  </nav>
 
-  <h5>Name: </h5>
-  <p>{{nama}}</p>
+  <section class="container mt-2">
+    <h1>My Todo-List</h1>
 
-  <h5>Student ID: </h5>
-  <p>{{npm}}</p>
+    <h5>Name: </h5>
+    <p>{{nama}}</p>
 
-  <table border="1">
-    <tr>
-      <th>Tanggal Pembuatan Task</th>
-      <th>Judul Task</th>
-      <th>Deskripsi Task</th>
-      <th>Status</th>
-      <th>Ubah</th>
-      <th>Hapus</th>
-    </tr>
-    {% comment %} Add the data below this line {% endcomment %}
-    {% for task in task_list %}
-    <tr>
-      <td>{{task.date}}</td>
-      <td>{{task.title}}</td>
-      <td>{{task.description}}</td>
-      <td>
-        {% if task.is_finished %} Selesai {% else %} Belum Selesai {% endif %}
-      </td>
-      <td>
-        <button>
-          <a href="{% url 'todolist:update-task' task.id %}">Ubah</a>
-        </button>
-        
-      </td>
-      <td>
-        <button>
-          <a href="{% url 'todolist:delete-task' task.id %}">Delete</a>
-        </button>
-      </td>
+    <h5>Student ID: </h5>
+    <p>{{npm}}</p>
+
+      {% comment %} Add the data below this line {% endcomment %}
+      {% for task in task_list %}
       
-    </tr>
-    {% endfor %}
-  </table>
+      <div class="d-flex justify-content-center mt-2">
+        <div class="card gradient-custom hover-overlay" style="border-radius: 16px; max-width: 30rem; height: fit-content;">
+          <div class="card-body">
+            <h5 class="card-title text-white">{{task.title}}</h5>
+            <p class="card-text text-white" style="font-size: 17px" >{{task.description}}</p>
+            <p class="card-text text-white" style="font-size: 12px">{{task.date}}</p>
+            
+            {% if task.is_finished == True %}
+            <p class="card-text" style="color: #bfdd5c; font-weight: bold;">Selesai</p>
+            {% else %}
+            <p class="card-text" style="color: #dd352f; font-weight: bold;" >Belum Selesai</p>
+            {%endif%}
   
-  <h5>Sesi terakhir login: {{ last_login }}</h5>
+            <div class="d-flex justify-content-evenly">
+              <a class="btn btn btn-primary mx-2" href="{% url 'todolist:update-task' task.id %}">Update Task</a>
+              <a class="btn btn btn-danger" href="{% url 'todolist:delete-task' task.id %}">Delete Task</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
 
-  <button><a href="{% url 'todolist:logout' %}">Logout</a></button>
-  <button><a href="{% url 'todolist:create-task' %}">Tambah Task Baru</button>
+    <h5 class="mt-5">Sesi terakhir login: {{ last_login }}</h5>
+  </section>
+
+  
   
 
 {% endblock content %}
