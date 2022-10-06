@@ -82,8 +82,8 @@ Kekurangan:
 ### HTML Tag
 
 HTML Tag | Kegunaan
-:---: | :---: |
-<!DOCTYPE> | Tag untuk menentukan tipe dokumen
+---|---
+`<!DOCTYPE>` | Tag untuk menentukan tipe dokumen
 `<html>` | Tag untuk membuat sebuah dokumen HTML
 `<title>` | Tag untuk membuat judul dari sebuah halaman
 `<body>` | Tag untuk membuat tubuh dari sebuah halaman
