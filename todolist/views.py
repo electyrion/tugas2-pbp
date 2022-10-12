@@ -4,11 +4,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from todolist.models import Task
-
-# Create your views here.
+from django.core import serializers
 
 
 @login_required(login_url='todolist:login')
@@ -89,3 +88,21 @@ def update_task(request, id):
     task.is_finished = not task.is_finished
     task.save()
     return redirect('todolist:show_todolist')
+
+# assignment 6
+
+
+def show_todolist_json(request):
+    # mengembalikan semua data task dalam bentuk json (Task 6)
+    data = Task.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+
+def create_task_modal(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        task = Task(user=request.user, title=title, description=description)
+        task.save()
+        return redirect('todolist:show_todolist')
+    return render(request, 'create_task.html')

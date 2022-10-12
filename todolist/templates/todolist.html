@@ -1,78 +1,160 @@
 {% extends 'base.html' %}
 
- {% block content %}
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      h1 {text-align: center;}
-      h5 {text-align: center;}
-      p {text-align: center;}
-      .gradient-custom {
-        /* fallback for old browsers */
-        background: #6a11cb;
+{% block meta %}
+<script>
 
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
-
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
-    }
-    .card:hover{
-    box-shadow: 4px 4px 2px rgb(107, 118, 125);    
-    transform: scale(1.1);
-
-    }
-    </style>
-  </head>
-
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">Todo-List</span>
-        <div class="rounded-4">
-          <a class="btn btn btn-primary" href="{% url 'todolist:create-task' %}">Create New</a>
-          <a class="btn btn-danger" href="{% url 'todolist:logout' %}"> Logout </a>
-        </div>
-    </div>
-  </nav>
-
-  <section class="container mt-2">
-    <h1>My Todo-List</h1>
-
-    <h5>Name: </h5>
-    <p>{{nama}}</p>
-
-    <h5>Student ID: </h5>
-    <p>{{npm}}</p>
-
-      {% comment %} Add the data below this line {% endcomment %}
-      {% for task in task_list %}
-      
-      <div class="d-flex justify-content-center mt-2">
-        <div class="card gradient-custom hover-overlay" style="border-radius: 16px; max-width: 30rem; height: fit-content;">
-          <div class="card-body">
-            <h5 class="card-title text-white">{{task.title}}</h5>
-            <p class="card-text text-white" style="font-size: 17px" >{{task.description}}</p>
-            <p class="card-text text-white" style="font-size: 12px">{{task.date}}</p>
-            
-            {% if task.is_finished == True %}
-            <p class="card-text" style="color: #bfdd5c; font-weight: bold;">Selesai</p>
-            {% else %}
-            <p class="card-text" style="color: #dd352f; font-weight: bold;" >Belum Selesai</p>
-            {%endif%}
-  
-            <div class="d-flex justify-content-evenly">
-              <a class="btn btn btn-primary mx-2" href="{% url 'todolist:update-task' task.id %}">Update Task</a>
-              <a class="btn btn btn-danger" href="{% url 'todolist:delete-task' task.id %}">Delete Task</a>
+  // get data using jquery ajax
+  $(document).ready(function() {
+    $.get('/todolist/json', function(data, status) {
+      let  content = '';
+      for (let i = 0; i < data.length; i++) {
+        content += `
+          <div class="card gradient-custom hover-overlay" style="border-radius: 16px; max-width: 30rem; height: fit-content; mx-5;">
+            <div class="card-body">
+              <h5 class="card-title text-white">${data[i].fields.title}</h5>
+              <p class="card-text text-white" style="font-size: 17px" >${data[i].fields.description}</p>
+              <p class="card-text text-white" style="font-size: 12px">${data[i].fields.date}</p>
+              <p class="card-text" style="color: ${data[i].fields.is_finished ? 'green' : 'red'}; font-size: 12px">${data[i].fields.is_finished ? 'Selesai' : 'Belum Selesai'}</p>
+    
+              <div class="flex justify-content-center">
+                <a class="btn btn btn-primary mx-2" href="/todolist/update-task/${data[i].pk}">Update Task</a>
+                <a class="btn btn btn-danger" href="/todolist/delete-task/${data[i].pk}">Delete Task</a>
+              </div>
             </div>
           </div>
+        `;
+        $('.content').html(content);
+      }
+    });
+  });
+
+  // button create task handler
+  $(document).ready( function(){
+    $('.add-task').click( function(){
+      $('.modal').toggle();
+    })
+  })
+
+  // button close modal handler
+  $(document).ready( function(){
+    $('.btn-close').click( function(){
+      $('.modal').toggle();
+    })
+  })
+
+  // save button handler
+  $(document).ready( function(){
+    $('.btn-save').click( function(){
+      let title = $('.title').val();
+      let description = $('.description').val();
+      let CSRFtoken = $('input[name="csrfmiddlewaretoken"]').val();
+      $.post('/todolist/add/', {
+        title: title,
+        description: description,
+        csrfmiddlewaretoken: CSRFtoken
+      }, function(data, status) {
+        console.log(data);
+        console.log(status);
+        if (status == 'success') {
+          $('.modal').toggle();
+          location.reload();
+        }
+      })
+    })
+  })
+
+  // prevent form resubmission
+  if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+  }
+</script>
+{% endblock meta %}
+
+{% block content %}
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    h1 {text-align: center;}
+    h5 {text-align: center;}
+    p {text-align: center;}
+    .gradient-custom {
+      /* fallback for old browsers */
+      background: #6a11cb;
+
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+  }
+  .card:hover{
+  box-shadow: 4px 4px 2px rgb(107, 118, 125);    
+  transform: scale(1.1);
+
+  }
+  </style>
+</head>
+
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">Todo-List</span>
+      <div class="rounded-4">
+        <button class="add-task btn btn-primary"> Add Task </button>
+        <a class="btn btn-primary" href="{% url 'todolist:create-task' %}">Create New</a>
+        <a class="btn btn-danger" href="{% url 'todolist:logout' %}"> Logout </a>
+      </div>
+  </div>
+</nav>
+
+<section class="container mt-2">
+  <h1>My Todo-List</h1>
+
+  <h5>Name: </h5>
+  <p>{{nama}}</p>
+
+  <h5>Student ID: </h5>
+  <p>{{npm}}</p>
+
+  <!-- Modal -->
+  <div class="modal" data-mdb-backdrop="true" data-mdb-keyboard="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Task</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="">
+            {% csrf_token %}
+            <table class="d-flex justify-content-center">
+                <div class="form-outline form-white mb-4">
+                    <label class="form-label">Title</label>
+                    <input placeholder="Masukkan judul" class="title form-control" required>
+                </div>
+                <div class="form-outline form-white mb-4">
+                    <label class="form-label">Description</label>
+                    <input placeholder="Deskripsi task" class="description form-control" required>
+                </div>
+
+                <!-- <button class="btn-save btn btn-primary" type="submit">Create</button> -->
+            </table>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+          <button class="btn-save btn btn-primary" type="submit">Create</button>
+          <!-- <button type="submit" class="btn btn-save btn-primary">Save changes</button> -->
         </div>
       </div>
-      {% endfor %}
+    </div>
+  </div>
 
-    <h5 class="mt-5">Sesi terakhir login: {{ last_login }}</h5>
-  </section>
+  <div class="content"></div>
 
-  
-  
+  <h5 class="mt-5">Sesi terakhir login: {{ last_login }}</h5>
+</section>
+
+
+
 
 {% endblock content %}
