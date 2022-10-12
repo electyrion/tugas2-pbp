@@ -42,24 +42,45 @@
     })
   })
 
-  // save button handler
-  $(document).ready( function(){
-    $('.btn-save').click( function(){
+  // post form using ajax
+  $(document).ready(function() {
+    $('.btn-save').click(function() {
+      // Stop form from submitting normally
+      event.preventDefault();
+
+      // Get some values from elements on the page:
       let title = $('.title').val();
       let description = $('.description').val();
       let CSRFtoken = $('input[name="csrfmiddlewaretoken"]').val();
-      $.post('/todolist/add/', {
-        title: title,
-        description: description,
-        csrfmiddlewaretoken: CSRFtoken
-      }, function(data, status) {
-        console.log(data);
-        console.log(status);
-        if (status == 'success') {
-          $('.modal').toggle();
-          location.reload();
+
+      // Send the data using post
+      $.post( '/todolist/add/', { title: title, description: description, csrfmiddlewaretoken: CSRFtoken });
+
+      // load data using ajax
+      $.get('/todolist/json', function(data, status) {
+        let  content = '';
+        for (let i = 0; i < data.length; i++) {
+          content += `
+            <div class="card gradient-custom hover-overlay" style="border-radius: 16px; max-width: 30rem; height: fit-content; mx-5;">
+              <div class="card-body">
+                <h5 class="card-title text-white">${data[i].fields.title}</h5>
+                <p class="card-text text-white" style="font-size: 17px" >${data[i].fields.description}</p>
+                <p class="card-text text-white" style="font-size: 12px">${data[i].fields.date}</p>
+                <p class="card-text" style="color: ${data[i].fields.is_finished ? 'green' : 'red'}; font-size: 12px">${data[i].fields.is_finished ? 'Selesai' : 'Belum Selesai'}</p>
+      
+                <div class="flex justify-content-center">
+                  <a class="btn btn btn-primary mx-2" href="/todolist/update-task/${data[i].pk}">Update Task</a>
+                  <a class="btn btn btn-danger" href="/todolist/delete-task/${data[i].pk}">Delete Task</a>
+                </div>
+              </div>
+            </div>
+          `;
+          $('.content').html(content);
         }
-      })
+      });
+      $('.title').empty();
+      $('.description').empty();
+      $('.modal').toggle();
     })
   })
 
@@ -124,7 +145,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="POST" action="">
+          <form method="POST" id="addForm" action="">
             {% csrf_token %}
             <table class="d-flex justify-content-center">
                 <div class="form-outline form-white mb-4">
@@ -136,15 +157,15 @@
                     <input placeholder="Deskripsi task" class="description form-control" required>
                 </div>
 
-                <!-- <button class="btn-save btn btn-primary" type="submit">Create</button> -->
+                <button class="btn-save btn btn-primary" type="submit">Create</button>
             </table>
           </form>
         </div>
-        <div class="modal-footer">
-          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button class="btn-save btn btn-primary" type="submit">Create</button>
-          <!-- <button type="submit" class="btn btn-save btn-primary">Save changes</button> -->
-        </div>
+          <button type="submit" class="btn btn-save btn-primary">Save changes</button>
+        </div> -->
       </div>
     </div>
   </div>

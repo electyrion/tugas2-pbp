@@ -141,3 +141,37 @@ HTML Tag | Kegunaan
 ### Cara Implementasi
 
 Tugas 5 ini saya kerjakan menggunakan framework bootstrap sebagai stylesheet. Dengan cara demikian, kita tidak perlu lagi repot-repot menuliskan kode css kedalam file css karena hal tersebut sudah dihandle oleh Bootstrap. Tidak hanya itu, Bootstrap juga menjadikan aplikasi web kita otomatis menjadi responsive dengan metode mobile first fluid system yang menyediakan skala hingga 12 kolom menyesuaikan dengan device yang sedang client gunakan.
+
+## Tugas 6: Javascript dan AJAX
+
+### Perbedaan antara Asynchronous Programming dengan Synchronous Programming
+
+Dalam dunia pemrograman komputer, synchronous programmiing dan asynchronous programming merupakan hal yang sangat penting. Dilihat dari namanya, kita pasti sudah dapat membayangkan apa sebenarnya perbedaan di antara keduanya. Synchoronous berarti event dijalankan secara berurutan yang artinya suatu event harus diselesaikan terlebih dahulu sebelum dapat berpindah menuju event selanjutnya. Asynchronous bersifat sebaliknya yaitu event dapat dijalankan tidak bergantung pada urutan dan bahkan dapat dijalankan secara bersamaan.
+Berikut merupakan tabel perbedaan di antara keduanya:
+
+Asynchronous | Synchronous
+---|---
+Asynchronous bersifat multi-thread yang berarti suatu event dapat dijalankan secara parallel | Syncrhonous bersifat single-thread sehingga hanya dapat menjalankan satu perintah dalam kurun waktu tertentu
+Asynchronous bersifat non-blocking yang artinya dapat mengirimkan beberapa request sekaligus kepada server | Synchronous bersifat blocking yang artinya hanya dapat mengirim satu request dalam kurun waktu tertentu dan harus menunggu request tersebut untuk mendapat response sebelum dapat mengirimkan request selanjutnya
+Asynchronous meningkatna jumlah throughput karena beberapa operasi dapa dijalankan dalam kurun waktu bersamaan | Synchronous lebih lamban dan lebih sekuensial
+
+### Event-Driven Programming
+
+Event-driven programming merupakan suatu pendekatan dalam dunia pemrograman dimana suatu code dibuat untuk merespon suatu kejadian atau event. Event dapat dipicu oleh pengguna misalnya pada saat pengguna menekan tombol atau mengetik suatu teks pada form. Suatu set instruksi yang dibuat untuk melakukan operasi yang sering digunakan pada program atau yang biasa disebut dengan subroutine yang merespon terhadap event disebut dengan event handler. Event handler akan memastikan bahwa penanganan yang sesuai akan terjadi sebagai respons terhadap event yang memicunya. Pada tugas kali ini contoh dari event-driven programming adalah penggunaan handler untuk setiap event yang terjadi pada web seperti ketika user menekan tombol `Add Task` maka akan memanggil fungsi untuk menampilkan modal yang berisi form pengisian task baru bagi pengguna.
+
+### Penerapan Asynchronous Programming pada AJAX
+
+AJAX dapat membuat suatu aplikasi web untuk dapat mengirim dan mengambil data dari server secara asynchronous dari balik layar. Dengan adanya AJAX, browser dan aplikasi web lainnya tidak perlu melakukan refresh seluruh halaman dan tentunya mengganggu display dari web tersebut setiap kali pengguna melakukan manipulasi data ataupun meminta request baru pada aplikasi web. Dengan melakukan pemisahan proses penampilan data dan proses pertukaran data, AJAX bekerja sedemikian sehingga membuat halaman web dapat melakukan perubahan isi database tanpa perlu memuat ulang seluruh halaman. Script ajax yang berada di dalam tag script akan mengirimkan request kepada server dan melanjutkan eksekusinya tanpa perlu menunggu response dari request tadi.
+
+### Proses Implementasi Tugas 6
+
+1. Pertama saya membuat fungsi baru pada `views.py` yang berfungsi untuk mengembalikan seluruh data task yang ada berupa json yang sesuai dengan user pembuat task tersebut
+2. Agar fungsi tersebut dapat diakses, buat path baru pada `urls.py` yang berada pada folder aplikasi `todolist`, path yang dimaksud yaitu `/todolist/json` yang akan mengarahkan ke fungsi yang baru saja dibuat pda poin pertama
+3. Karena kita akan menggunakan ajax untuk mengimplementasikan asynchronous programming, sertakan library ajax pada `base.html` yang nantinya akan di-inherit oleh file html todolist
+4. Melakukan pengambilan data todolist menggunakan [jquery AJAX](https://github.com/electyrion/tugas2-pbp/blob/main/todolist/templates/todolist.html)
+5. Untuk menambahkan object task baru secara asynchronous menggunakan ajax, pertama buat fungsi baru pada `views.py`
+6. Membuat path `/todolist/add` agar fungsi yang baru dibuat tadi dapat diakses
+7. Membuat modal baru yang berisi form penambahan task serta menghubungkannya dengan tombol `Add Task` yang berada pada navbar
+8. Membuat event handler ketika pengguna menekan tombol `create` dengan cara menghubungkannya dengan method post ajax menuju path `/todolist/add` sekaligus menutup modal pembuatan form baru
+9. Menambahkan task yang telah dibuat tadi pada `content` sehingga dapat ditampilkan secara asynchronous
+10. Melengkapi README.md

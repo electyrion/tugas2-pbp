@@ -94,7 +94,7 @@ def update_task(request, id):
 
 def show_todolist_json(request):
     # mengembalikan semua data task dalam bentuk json (Task 6)
-    data = Task.objects.all()
+    data = Task.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 
