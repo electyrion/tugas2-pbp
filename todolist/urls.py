@@ -8,6 +8,7 @@ from todolist.views import delete_task
 from todolist.views import update_task
 from todolist.views import show_todolist_json
 from todolist.views import create_task_modal
+from todolist.views import delete_task_ajax
 
 app_name = 'todolist'
 
@@ -21,4 +22,5 @@ urlpatterns = [
     path('update-task/<int:id>/', update_task, name='update-task'),
     path('json/', show_todolist_json, name='show-todolist-json'),
     path('add/', create_task_modal, name='create-task-modal'),
+    path('delete/<int:id>/', delete_task_ajax, name='delete-task-ajax'),
 ]

@@ -3,7 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-import datetime
+# import datetime
+from datetime import date
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from todolist.models import Task
@@ -48,7 +49,7 @@ def login_user(request):
             response = HttpResponseRedirect(
                 reverse("todolist:show_todolist"))  # membuat response
             # membuat cookie last_login dan menambahkannya ke dalam response
-            response.set_cookie('last_login', str(datetime.datetime.now()))
+            response.set_cookie('last_login', str(date.today()))
             return response
         else:
             messages.info(request, 'Username atau Password salah!')
@@ -94,7 +95,7 @@ def update_task(request, id):
 
 def show_todolist_json(request):
     # mengembalikan semua data task dalam bentuk json (Task 6)
-    data = Task.objects.filter(user=request.user)
+    data = Task.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 
@@ -102,7 +103,14 @@ def create_task_modal(request):
     if request.method == "POST":
         title = request.POST.get('title')
         description = request.POST.get('description')
-        task = Task(user=request.user, title=title, description=description)
+        task = Task(user=request.user, title=title,
+                    description=description, date=date.today())
         task.save()
         return redirect('todolist:show_todolist')
-    return render(request, 'create_task.html')
+    return HttpResponse("")
+
+
+def delete_task_ajax(request, id):
+    task = Task.objects.get(id=id)
+    task.delete()
+    return redirect('todolist:show_todolist')

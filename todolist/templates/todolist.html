@@ -9,7 +9,7 @@
       let  content = '';
       for (let i = 0; i < data.length; i++) {
         content += `
-          <div class="card gradient-custom hover-overlay" style="border-radius: 16px; max-width: 30rem; height: fit-content; mx-5;">
+          <div class="card gradient-custom m-2 hover-overlay" style="border-radius: 16px; max-width: 30rem; height: fit-content; mx-5;">
             <div class="card-body">
               <h5 class="card-title text-white">${data[i].fields.title}</h5>
               <p class="card-text text-white" style="font-size: 17px" >${data[i].fields.description}</p>
@@ -53,36 +53,44 @@
       let description = $('.description').val();
       let CSRFtoken = $('input[name="csrfmiddlewaretoken"]').val();
 
-      // Send the data using post
-      $.post( '/todolist/add/', { title: title, description: description, csrfmiddlewaretoken: CSRFtoken });
+      if (title == '' || description == '') {
+        alert('Please fill all the fields');
+      } else {
+        // Send the data using post
+        $.post( '/todolist/add/', { title: title, description: description, csrfmiddlewaretoken: CSRFtoken }, function() {
 
-      // load data using ajax
-      $.get('/todolist/json', function(data, status) {
-        let  content = '';
-        for (let i = 0; i < data.length; i++) {
-          content += `
-            <div class="card gradient-custom hover-overlay" style="border-radius: 16px; max-width: 30rem; height: fit-content; mx-5;">
-              <div class="card-body">
-                <h5 class="card-title text-white">${data[i].fields.title}</h5>
-                <p class="card-text text-white" style="font-size: 17px" >${data[i].fields.description}</p>
-                <p class="card-text text-white" style="font-size: 12px">${data[i].fields.date}</p>
-                <p class="card-text" style="color: ${data[i].fields.is_finished ? 'green' : 'red'}; font-size: 12px">${data[i].fields.is_finished ? 'Selesai' : 'Belum Selesai'}</p>
-      
-                <div class="flex justify-content-center">
-                  <a class="btn btn btn-primary mx-2" href="/todolist/update-task/${data[i].pk}">Update Task</a>
-                  <a class="btn btn btn-danger" href="/todolist/delete-task/${data[i].pk}">Delete Task</a>
+          // load data using ajax
+          $.get('/todolist/json', function(data, status) {
+            let  content = '';
+            for (let i = 0; i < data.length; i++) {
+              content += `
+                <div class="card gradient-custom m-2 hover-overlay" style="border-radius: 16px; max-width: 30rem; height: fit-content; mx-5;">
+                  <div class="card-body">
+                    <h5 class="card-title text-white">${data[i].fields.title}</h5>
+                    <p class="card-text text-white" style="font-size: 17px" >${data[i].fields.description}</p>
+                    <p class="card-text text-white" style="font-size: 12px">${data[i].fields.date}</p>
+                    <p class="card-text" style="color: ${data[i].fields.is_finished ? 'green' : 'red'}; font-size: 12px">${data[i].fields.is_finished ? 'Selesai' : 'Belum Selesai'}</p>
+
+                    <div class="flex justify-content-center">
+                      <a class="btn btn btn-primary mx-2" href="/todolist/update-task/${data[i].pk}">Update Task</a>
+                      <a class="btn btn btn-danger" href="/todolist/delete-task/${data[i].pk}">Delete Task</a>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          `;
-          $('.content').html(content);
+              `;
+              $('.content').html(content);
+            }
+          });
+          $.clearInput();
+          $('.modal').toggle();
+          });
         }
-      });
-      $('.title').empty();
-      $('.description').empty();
-      $('.modal').toggle();
     })
   })
+
+  $.clearInput = function () {
+    $('.addForm').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
+  };
 
   // prevent form resubmission
   if ( window.history.replaceState ) {
@@ -145,16 +153,16 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="POST" id="addForm" action="">
+          <form method="POST" class="addForm" action="">
             {% csrf_token %}
             <table class="d-flex justify-content-center">
                 <div class="form-outline form-white mb-4">
                     <label class="form-label">Title</label>
-                    <input placeholder="Masukkan judul" class="title form-control" required>
+                    <input placeholder="Masukkan judul" class="title form-control" type="text" required>
                 </div>
                 <div class="form-outline form-white mb-4">
                     <label class="form-label">Description</label>
-                    <input placeholder="Deskripsi task" class="description form-control" required>
+                    <input placeholder="Deskripsi task" class="description form-control" type="text" required>
                 </div>
 
                 <button class="btn-save btn btn-primary" type="submit">Create</button>
@@ -170,7 +178,7 @@
     </div>
   </div>
 
-  <div class="content"></div>
+  <div class="content d-flex justify-content-center"></div>
 
   <h5 class="mt-5">Sesi terakhir login: {{ last_login }}</h5>
 </section>
